@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>StudioKiss | Фотостудия для творчества и вдохновения</title>
+    <!-- SEO Meta & Open Graph -->
+    <meta name="description" content="StudioKiss — современная фотостудия с интерьерными залами, профессиональным оборудованием и выгодными пакетами. Аренда, тематические съёмки, мастер-классы.">
+    <meta name="keywords" content="фотостудия, аренда студии, интерьерная студия, фотосъемка, StudioKiss, студия в Москве">
+    <meta name="author" content="StudioKiss">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://studiokiss.example.com">
+    <!-- Google Fonts + Аналог GA (счетчик имитирован + плагин SEO мета в head) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons (для соцсетей и иконок) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Аналог Google Analytics (плагин-имитация сбора данных, отправка в консоль и локальное хранилище для демо) -->
+    <script>
+        // Аналог Google Analytics: простой трекинг просмотров страниц и событий (учебный)
+        (function() {
+            // Псевдо ID трекера
+            const GA_TRACKING_ID = "UA-STUDIOKISS-001";
+            function sendEvent(action, category, label, value) {
+                const eventData = {
+                    event: action,
+                    category: category,
+                    label: label,
+                    value: value,
+                    timestamp: new Date().toISOString(),
+                    url: window.location.pathname
+                };
+                console.log("[Analytics Mock] Событие отправлено:", eventData);
+                // Для демонстрации сохраняем в localStorage (имитация сбора)
+                let logs = JSON.parse(localStorage.getItem("studioKiss_analytics") || "[]");
+                logs.push(eventData);
+                if(logs.length > 20) logs.shift();
+                localStorage.setItem("studioKiss_analytics", JSON.stringify(logs));
+            }
+            window.mockGA = { sendEvent };
+            // Отправка просмотра страницы
+            sendEvent("page_view", "navigation", document.title, 1);
+            // Отслеживание ссылок и форм позже
+        })();
+        
+        // Дополнительный "SEO-плагин": структурированные данные + мета-теги динамически (уже в head)
+        // Имитация плагина для SEO: добавляем JSON-LD
+        const seoJsonLd = {
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            "name": "StudioKiss",
+            "url": "https://studiokiss.example.com",
+            "logo": "https://studiokiss.example.com/logo.png",
+            "description": "Фотостудия с уникальными интерьерами, аренда помещений для съемок и мероприятий.",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "ул. Тверская, 12",
+                "addressLocality": "Москва",
+                "addressRegion": "Москва",
+                "postalCode": "125009",
+                "addressCountry": "RU"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+7 (495) 123-45-67",
+                "contactType": "customer service"
+            },
+            "sameAs": [
+                "https://www.instagram.com/studiokiss",
+                "https://t.me/studiokiss"
+            ]
+        };
+        const scriptLd = document.createElement('script');
+        scriptLd.type = 'application/ld+json';
+        scriptLd.textContent = JSON.stringify(seoJsonLd);
+        document.head.appendChild(scriptLd);
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefaf5;
+            color: #2c2418;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .logo, .nav-links a, .btn, .service-card h3, .studio-card h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* Цветовая гамма: нежно-розовый, кофе с молоком, золотистый акцент */
+        :root {
+            --primary: #c49a6c;
+            --primary-dark: #a5774b;
+            --secondary: #f3e9de;
+            --dark: #2c2418;
+            --light-bg: #fff9f2;
+            --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.05);
+        }
+        /* шапка */
+        .top-bar {
+            background: var(--dark);
+            color: #f9e4c8;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .contact-info i, .social-icons a i {
+            margin-right: 6px;
+        }
+        .social-icons a {
+            color: #f9e4c8;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+        .social-icons a:hover { color: var(--primary); }
+        
+        /* навигация */
+        .navbar {
+            background: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--dark);
+        }
+        .logo span { color: var(--primary); }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--dark);
+            transition: 0.2s;
+        }
+        .nav-links a:hover, .active-link { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .menu-toggle {
+            display: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+        /* кнопки */
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        
+        /* hero section */
+        .hero {
+            background: linear-gradient(135deg, #faeedf, #fff3e8);
+            padding: 70px 0 60px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        /* блоки универсальные */
+        section {
+            padding: 70px 0;
+            border-bottom: 1px solid #eee6dd;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+        .section-title:after {
+            content: '';
+            width: 70px;
+            height: 3px;
+            background: var(--primary);
+            display: block;
+            margin: 12px auto 0;
+        }
+        /* галерея-баннер */
+        .gallery-banner {
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .slider {
+            display: flex;
+            animation: slideShow 15s infinite alternate;
+        }
+        .slider img {
+            width: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+            height: 380px;
+        }
+        @keyframes slideShow {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(0); }
+            33% { transform: translateX(-100%); }
+            58% { transform: translateX(-100%); }
+            66% { transform: translateX(-200%); }
+            91% { transform: translateX(-200%); }
+            100% { transform: translateX(0); }
+        }
+        /* услуги на главной */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin-top: 20px;
+        }
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: 0.2s;
+        }
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .service-card h3 { margin: 18px 20px 8px; font-size: 1.5rem; }
+        .service-card p { margin: 0 20px 12px; color: #5c4e3c; }
+        .price { font-weight: 700; color: var(--primary); margin: 0 20px 20px; font-size: 1.2rem; }
+        /* интерьерные студии - анимированный баннер (горизонтальный скролл) */
+        .studio-scroll {
+            display: flex;
+            gap: 28px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 20px;
+        }
+        .studio-card {
+            min-width: 300px;
+            flex: 0 0 300px;
+            background: white;
+            border-radius: 24px;
+            scroll-snap-align: start;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .studio-card:hover { transform: scale(1.02); }
+        .studio-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        .studio-info { padding: 18px; }
+        .studio-info h4 { font-size: 1.4rem; margin-bottom: 8px; }
+        /* форма */
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-sm);
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e2d8ce;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+        }
+        /* футер */
+        footer {
+            background: #1f1a14;
+            color: #cfc5b8;
+            padding: 50px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin: 12px 0; }
+        .footer-links a { color: #cfc5b8; text-decoration: none; }
+        .social-footer a { margin-right: 20px; font-size: 1.5rem; color: #cfc5b8; }
+        /* Пагинация + фильтр на странице услуг */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .filter-btn {
+            background: #f0e7de;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .filter-btn.active { background: var(--primary); color: white; }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        .page-item {
+            background: #ede3d8;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .page-item.active-page { background: var(--primary); color: white; }
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+                gap: 18px;
+                padding: 20px 0;
+            }
+            .nav-links.show { display: flex; }
+            .nav-flex { flex-wrap: wrap; }
+            .hero h1 { font-size: 2rem; }
+            .container { padding: 0 20px; }
+        }
+        @media (max-width: 480px) {
+            .top-bar .container { flex-direction: column; align-items: center; }
+            .slider img { height: 250px; }
+        }
+        /* страницы контент */
+        .page-content { background: var(--light-bg); min-height: 60vh; padding: 50px 0; }
+        .about-grid {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .about-grid img { width: 100%; max-width: 400px; border-radius: 28px; }
+    </style>
+</head>
+<body>
+<div class="top-bar">
+    <div class="container">
+        <div class="contact-info"><i class="fas fa-phone-alt"></i> +7 (495) 123-45-67 &nbsp;|&nbsp; <i class="fas fa-envelope"></i> hello@studiokiss.ru</div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-vk"></i></a>
+        </div>
+    </div>
+</div>
+<nav class="navbar">
+    <div class="container nav-flex">
+        <div class="logo">Studio<span>Kiss</span></div>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" data-page="home" class="active-link">Главная</a></li>
+            <li><a href="#" data-page="about">О нас</a></li>
+            <li><a href="#" data-page="gallery">Галерея</a></li>
+            <li><a href="#" data-page="services-page">Наши услуги</a></li>
+            <li><a href="#" data-page="studios">Интерьерные студии</a></li>
+            <li><a href="#" data-page="contacts">Контакты</a></li>
+        </ul>
+    </div>
+</nav>
+<main id="app-root">
+    <!-- Главная страница (контент по умолчанию) -->
+    <div id="home-page">
+        <div class="hero">
+            <div class="container"><h1>Творчество начинается здесь</h1><p>Профессиональная фотостудия с уникальными интерьерами и современным оборудованием</p></div>
+        </div>
+        <div class="container">
+            <section id="booking"><h2 class="section-title">Заказать мероприятие</h2>
+                <div class="form-card"><form id="bookingForm"><div class="form-group"><select id="eventType" required><option value="">Выберите мероприятие</option><option>Фотосессия</option><option>Видеосъемка</option><option>Мастер-класс</option><option>День рождения</option></select></div><div class="form-group"><input type="text" placeholder="ФИО" id="fullname" required></div><div class="form-group"><input type="tel" placeholder="Телефон" id="phone" required></div><div class="form-group"><input type="email" placeholder="Электронная почта" id="email" required></div><div class="form-group"><input type="date" id="eventDate" required></div><button type="submit" class="btn">Отправить заявку</button></form><div id="formMsg" style="margin-top:16px;"></div></div></section>
+            <section id="gallery-home"><h2 class="section-title">Галерея работ</h2><div class="gallery-banner"><div class="slider"><img src="https://picsum.photos/id/20/900/500" alt="съемка"><img src="https://picsum.photos/id/106/900/500" alt="студия"><img src="https://picsum.photos/id/38/900/500" alt="портфолио"></div></div></section>
+            <section id="menu-block"><h2 class="section-title">О нас, услуги, контакты</h2><div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;"><a href="#" data-page="about" class="btn btn-outline">О нас</a><a href="#" data-page="services-page" class="btn btn-outline">Наши услуги</a><a href="#" data-page="contacts" class="btn btn-outline">Контакты</a></div></section>
+            <section id="services-home"><h2 class="section-title">Наши услуги</h2><div class="services-grid" id="homeServices"></div></section>
+            <section id="studios-home"><h2 class="section-title">Интерьерные студии</h2><div class="studio-scroll" id="studiosSlider"></div></section>
+        </div>
+    </div>
+    <!-- Остальные страницы будут рендериться через JS -->
+    <div id="dynamic-page" style="display:none;"></div>
+</main>
+<footer><div class="container footer-grid"><div class="footer-links"><h4>Меню</h4><ul><li><a href="#" data-page="home">Главная</a></li><li><a href="#" data-page="about">О нас</a></li><li><a href="#" data-page="services-page">Услуги</a></li><li><a href="#" data-page="contacts">Контакты</a></li></ul></div><div class="footer-links"><h4>Реквизиты</h4><p>ООО «Студио Кисс»<br>ИНН 7701234567<br>ОГРН 1234567890123<br>г. Москва, ул. Тверская 12</p></div><div class="social-footer"><h4>Мы в соцсетях</h4><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-telegram"></i></a><a href="#"><i class="fab fa-vk"></i></a></div></div><div style="text-align:center; margin-top:40px;">&copy; StudioKiss 2025. Все права защищены.</div></footer>
+<script>
+    // Данные
+    const servicesData = [
+        { id:1, category:"портрет", name:"Портретная съемка", desc:"Индивидуальный подход, свет, образы.", price:"от 5000₽", img:"https://picsum.photos/id/64/400/250" },
+        { id:2, category:"предметная", name:"Предметная съемка", desc:"Идеально для маркетплейсов.", price:"от 6000₽", img:"https://picsum.photos/id/26/400/250" },
+        { id:3, category:"свадебная", name:"Love'is", desc:"Романтическая съемка в студии.", price:"от 13500₽", img:"https://picsum.photos/id/29/400/250" },
+        { id:4, category:"портрет", name:"Family портрет", desc:"Семейные фото в теплой атмосфере.", price:"от 9000₽", img:"https://picsum.photos/id/113/400/250" },
+        { id:5, category:"свадебная", name:"Свадебный день", desc:"Репортаж + постановка.", price:"от 29000₽", img:"https://picsum.photos/id/30/400/250" },
+        { id:6, category:"предметная", name:"Фуд-фото", desc:"Креативная съемка блюд.", price:"от 6000₽", img:"https://picsum.photos/id/108/400/250" }
+    ];
+    const studiosData = [
+        { name:"Loft лофт", desc:"Кирпичная стена, диваны, зеркала", price:"1500₽/час", img:"https://picsum.photos/id/1/400/250" },
+        { name:"Белая студия", desc:"Минимализм, окна в пол", price:"2000₽/час", img:"https://picsum.photos/id/42/400/250" },
+        { name:"Ботаническая", desc:"Растения, деревянный пол", price:"1800₽/час", img:"https://picsum.photos/id/96/400/250" }
+    ];
+    function renderHomeServices() { const container = document.getElementById('homeServices'); if(container) container.innerHTML = servicesData.slice(0,3).map(s => `<div class="service-card"><img src="${s.img}" alt="${s.name}"><h3>${s.name}</h3><p>${s.desc}</p><div class="price">${s.price}</div><a href="#" class="btn-small btn-outline" style="margin:0 20px 20px; display:inline-block;">Подробнее</a></div>`).join(''); }
+    function renderStudiosScroll() { const container = document.getElementById('studiosSlider'); if(container) container.innerHTML = studiosData.map(s => `<div class="studio-card"><img src="${s.img}" alt="${s.name}"><div class="studio-info"><h4>${s.name}</h4><p>${s.desc}</p><strong>${s.price}</strong></div></div>`).join(''); }
+    
+    // Пагинация и фильтрация услуг
+    let currentFilter = "all";
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    function renderServicesPage(container) {
+        let filtered = currentFilter === "all" ? servicesData : servicesData.filter(s => s.category === currentFilter);
+        const totalPages = Math.ceil(filtered.length / itemsPerPage);
+        const start = (currentPage-1)*itemsPerPage;
+        const paginated = filtered.slice(start, start+itemsPerPage);
+        container.innerHTML = `<div class="services-grid">${paginated.map(s => `<div class="service-card"><img src="${s.img}"><h3>${s.name}</h3><p>${s.desc}</p><div class="price">${s.price}</div></div>`).join('')}</div><div class="pagination" id="pagination-controls"></div>`;
+        const pagDiv = document.getElementById('pagination-controls');
+        if(pagDiv) {
+            let pagesHtml = '';
+            for(let i=1;i<=totalPages;i++) pagesHtml += `<div class="page-item ${i===currentPage?'active-page':''}" data-page-num="${i}">${i}</div>`;
+            pagDiv.innerHTML = pagesHtml;
+            document.querySelectorAll('.page-item').forEach(el => el.addEventListener('click',(e)=>{ currentPage = parseInt(e.target.dataset.pageNum); renderServicesPage(container); }));
+        }
+    }
+    // навигация
+    function loadPage(pageId) {
+        const homeDiv = document.getElementById('home-page');
+        const dynamicDiv = document.getElementById('dynamic-page');
+        homeDiv.style.display = 'none';
+        dynamicDiv.style.display = 'block';
+        if(pageId === 'home') { homeDiv.style.display = 'block'; dynamicDiv.style.display = 'none'; window.scrollTo(0,0); mockGA.sendEvent('page_view','navigation','Главная'); return; }
+        let content = '';
+        if(pageId === 'about') content = `<div class="page-content container"><div class="about-grid"><img src="https://picsum.photos/id/159/500/400" alt="О студии"><div><h2>О StudioKiss</h2><p>Мы открыли студию в 2018 году. Наша команда — это творческие фотографы и дизайнеры интерьеров. 4 зала, профессиональный свет, реквизит. Проводим мастер-классы и мероприятия. Любим каждого клиента!</p><p>Доверьте свои воспоминания профессионалам — почувствуйте магию Kiss.</p></div></div></div>`;
+        else if(pageId === 'gallery') content = `<div class="page-content container"><h2 class="section-title">Галерея работ</h2><div class="gallery-banner"><div class="slider"><img src="https://picsum.photos/id/13/900/500"><img src="https://picsum.photos/id/22/900/500"><img src="https://picsum.photos/id/91/900/500"></div></div><p style="text-align:center; margin-top:20px;">Вдохновляющие кадры наших клиентов</p></div>`;
+        else if(pageId === 'services-page') content = `<div class="page-content container"><h2 class="section-title">Наши услуги</h2><div class="filter-buttons"><button class="filter-btn ${currentFilter==='all'?'active':''}" data-filter="all">Все</button><button class="filter-btn ${currentFilter==='портрет'?'active':''}" data-filter="портрет">Портрет</button><button class="filter-btn ${currentFilter==='предметная'?'active':''}" data-filter="предметная">Предметная</button><button class="filter-btn ${currentFilter==='свадебная'?'active':''}" data-filter="свадебная">Свадебная</button></div><div id="servicesList"></div></div>`;
+        else if(pageId === 'studios') content = `<div class="page-content container"><h2 class="section-title">Интерьерные студии</h2><div class="studio-scroll">${studiosData.map(s=>`<div class="studio-card"><img src="${s.img}"><div class="studio-info"><h4>${s.name}</h4><p>${s.desc}</p><strong>${s.price}</strong></div></div>`).join('')}</div></div>`;
+        else if(pageId === 'contacts') content = `<div class="page-content container"><h2 class="section-title">Контакты</h2><div style="background:white; padding:30px; border-radius:28px;"><p><i class="fas fa-map-marker-alt"></i> Адрес: Москва, Тверская ул., д.12, м.Тверская</p><p><i class="fas fa-phone"></i> Телефон: +7 (495) 123-45-67</p><p><i class="fas fa-envelope"></i> Email: hello@studiokiss.ru</p><p>Режим работы: ежедневно 10:00–22:00</p><iframe width="100%" height="250" style="border:0; margin-top:20px;" loading="lazy" src="https://maps.google.com/maps?q=Тверская%2C%2012%2C%20Москва&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div></div>`;
+        dynamicDiv.innerHTML = content;
+        if(pageId === 'services-page') {
+            const servicesContainer = document.getElementById('servicesList');
+            if(servicesContainer) { renderServicesPage(servicesContainer); 
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', (e) => { currentFilter = e.target.dataset.filter; currentPage=1; document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); e.target.classList.add('active'); renderServicesPage(servicesContainer); })); }
+        }
+        mockGA.sendEvent('page_view','navigation',pageId);
+        window.scrollTo(0,0);
+    }
+    document.querySelectorAll('[data-page]').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const page = link.getAttribute('data-page'); loadPage(page); }); });
+    document.getElementById('mobile-menu')?.addEventListener('click', () => { document.getElementById('nav-links')?.classList.toggle('show'); });
+    document.getElementById('bookingForm')?.addEventListener('submit', (e) => { e.preventDefault(); mockGA.sendEvent('submit_form','booking','Заказ мероприятия'); document.getElementById('formMsg').innerHTML = '<span style="color:green;">✔ Спасибо! Мы свяжемся с вами в ближайшее время.</span>'; e.target.reset(); });
+    renderHomeServices(); renderStudiosScroll();
+    // SEO имитация - доп мета уже добавлены. Инициализация страницы
+    loadPage('home');
+    window.mockGA.sendEvent('load','system','site_ready');
+</script>
+</body>
+</html>
